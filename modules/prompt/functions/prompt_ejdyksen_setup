@@ -1,0 +1,48 @@
+function prompt_ejd_precmd {
+  if (( $+functions[git-info] )); then
+    git-info
+  fi
+}
+
+function prompt_ejd_setup {
+  setopt LOCAL_OPTIONS
+  unsetopt XTRACE KSH_ARRAYS
+  prompt_opts=(cr percent subst)
+
+  autoload -Uz add-zsh-hook
+
+  add-zsh-hook precmd prompt_ejd_precmd
+
+  zstyle ':prezto:module:editor' completing '%B%F{red}…%f%b'
+
+  # You must use Xterm_256color_chart
+  # color chart: http://upload.wikimedia.org/wikipedia/en/1/15/Xterm_256color_chart.svg
+  zstyle ':prezto:module:git:info:action'     format '%F{166}[%s] '   # %s
+  zstyle ':prezto:module:git:info:added'      format '%F{10}+'        # %a
+  zstyle ':prezto:module:git:info:ahead'      format '+%A'            # %A works
+  zstyle ':prezto:module:git:info:behind'     format '-%B'            # %B works
+  zstyle ':prezto:module:git:info:branch'     format '%b'             # %b
+  zstyle ':prezto:module:git:info:clean'      format '%F{118}✓'       # %C
+  zstyle ':prezto:module:git:info:commit'     format '[%7>>%c%>>]'    # %c
+  zstyle ':prezto:module:git:info:deleted'    format 'deleted'        # %d doesn't work
+  zstyle ':prezto:module:git:info:dirty'      format 'dirty:%D'       # %D
+  zstyle ':prezto:module:git:info:modified'   format '%F{33}•'        # %m
+  zstyle ':prezto:module:git:info:position'   format 'position:%p'    # %p
+  zstyle ':prezto:module:git:info:remote'     format 'remote:%R'      # %R
+  zstyle ':prezto:module:git:info:renamed'    format '→'              # %r
+  zstyle ':prezto:module:git:info:stashed'    format 'stashed:%S'     # %S
+  zstyle ':prezto:module:git:info:unmerged'   format 'unmerged:%U'    # %U
+  zstyle ':prezto:module:git:info:untracked'  format '?'              # %u
+  zstyle ':prezto:module:git:ignore' submodule ''
+  zstyle ':prezto:module:git:info:keys' format \
+  'prompt'  '%F{11}(%b%A%B)%f' \
+  'rprompt' '%s%F{11}%c%C%m%a%u %U'
+
+  PROMPT="%F{135}%n@%m%f: %F{002}%~%f "'${git_info[prompt]}'"
+%(?.%F{002}.%F{124})❯ %f"
+
+  RPROMPT='${git_info[rprompt]}'
+}
+
+prompt_ejd_setup "$@"
+
