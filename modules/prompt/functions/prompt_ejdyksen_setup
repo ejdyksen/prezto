@@ -17,6 +17,7 @@ function prompt_ejd_setup {
 
   # You must use Xterm_256color_chart
   # color chart: http://upload.wikimedia.org/wikipedia/en/1/15/Xterm_256color_chart.svg
+  zstyle ':prezto:module:git:info'            verbose 'yes'
   zstyle ':prezto:module:git:info:action'     format '%F{166}[%s] '   # %s
   zstyle ':prezto:module:git:info:added'      format '%F{10}+'        # %a
   zstyle ':prezto:module:git:info:ahead'      format '+%A'            # %A works
